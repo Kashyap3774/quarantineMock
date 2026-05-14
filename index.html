@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOBM Quarantine — Mock Screen</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "72", "72full", "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #32363a;
+    background: #edeff0;
+    line-height: 1.4;
+  }
+
+  /* Shell header (Fiori shell bar) */
+  .app-header {
+    background: #354a5f;
+    color: #fff;
+    padding: 0 16px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  }
+  .app-header .logo {
+    width: 22px; height: 22px;
+    background: #fff; color: #354a5f;
+    border-radius: 3px;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 11px;
+  }
+  .app-header h1 {
+    font-size: 16px; font-weight: 400;
+  }
+  .app-header .badge {
+    font-size: 11px;
+    background: rgba(255,255,255,0.15);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .app-header .spacer { flex: 1; }
+  .app-header .user {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    display: grid; place-items: center;
+    font-size: 12px;
+  }
+
+  /* Page */
+  .page {
+    max-width: 1280px;
+    margin: 12px auto;
+    padding: 0 12px;
+  }
+
+  /* Panel */
+  .panel {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .panel-header {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fafafa;
+    font-size: 13px;
+    font-weight: 600;
+    color: #32363a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .panel-body { padding: 14px; }
+
+  /* Radio group */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+  .radio-item {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+  }
+  .radio-item input[type=radio] {
+    accent-color: #0a6ed1;
+    margin-right: 8px;
+    transform: translateY(1px);
+  }
+
+  /* Form */
+  .form-row { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: flex-end; }
+  .form-field {
+    display: flex; flex-direction: column;
+    min-width: 170px;
+  }
+  .form-field label {
+    font-size: 12px; color: #6a6d70;
+    margin-bottom: 3px;
+  }
+  .form-field input, .form-field select {
+    border: 1px solid #b3b3b3;
+    background: #fff;
+    padding: 5px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    height: 32px;
+    border-radius: 2px;
+    outline: none;
+    color: #32363a;
+  }
+  .form-field input:focus, .form-field select:focus {
+    border-color: #0a6ed1;
+    box-shadow: inset 0 0 0 1px #0a6ed1;
+  }
+
+  /* Buttons (Fiori standard) */
+  .btn {
+    height: 32px; padding: 0 12px;
+    font-size: 14px; font-family: inherit;
+    border: 1px solid #b3b3b3;
+    background: #fff; color: #0a6ed1;
+    cursor: pointer; border-radius: 2px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn:hover { background: #ebf5fe; border-color: #0a6ed1; }
+  .btn:active { background: #d3effe; }
+  .btn-primary {
+    background: #0a6ed1; color: #fff; border-color: #0a6ed1;
+  }
+  .btn-primary:hover { background: #085caf; border-color: #085caf; }
+  .btn-primary:active { background: #064f99; }
+  .btn-toggle.active {
+    background: #d3effe; border-color: #0a6ed1;
+    color: #064f99; font-weight: 600;
+  }
+
+  .btn-row { margin-top: 14px; display: flex; gap: 8px; }
+
+  /* Action bar */
+  .action-bar {
+    display: flex; gap: 6px;
+    padding: 8px 12px;
+    background: #f7f8f9;
+    border-bottom: 1px solid #e5e5e5;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .action-bar .spacer { flex: 1; }
+
+  /* Tabs */
+  .tab-strip {
+    display: flex;
+    background: #fafafa;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 0 6px;
+  }
+  .tab-strip .tab {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #6a6d70;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    font-family: inherit;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-strip .tab:hover { color: #32363a; }
+  .tab-strip .tab.active {
+    color: #0a6ed1;
+    border-bottom-color: #0a6ed1;
+    font-weight: 600;
+  }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: #f5f6f7;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: #32363a;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ebebeb;
+  }
+  tbody tr:hover { background: #f5f9fc; }
+  tbody tr.selected { background: #e3f1fb; }
+  td input[type=checkbox], th input[type=checkbox] { accent-color: #0a6ed1; }
+  th.checkbox-col, td.checkbox-col { width: 36px; text-align: center; }
+
+  /* Status pills */
+  .status {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+  .status-released  { color: #107e3e; border-color: #abe2b9; background: #ebf5e9; }
+  .status-active    { color: #0a6ed1; border-color: #b3d6f5; background: #ebf5fe; }
+  .status-quarantined { color: #bb0000; border-color: #f0b1b1; background: #fbeaea; }
+  .status-queue     { color: #6a6d70; border-color: #cfd0d2; background: #f3f4f5; }
+  .status-done      { color: #5a7a3e; border-color: #c9d2af; background: #f4f7ec; }
+  .status-available { color: #107e3e; border-color: #abe2b9; background: #ebf5e9; }
+
+  /* Footer notice */
+  .notice {
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #6a6d70;
+    background: #fafafa;
+    border-top: 1px solid #e5e5e5;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Hint / empty */
+  .hint {
+    padding: 28px 16px;
+    text-align: center;
+    color: #6a6d70;
+    font-size: 13px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: #32363a; color: #fff;
+    padding: 8px 16px; border-radius: 2px;
+    font-size: 13px; z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    animation: fadeOut 2s forwards;
+  }
+  @keyframes fadeOut {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 720px) {
+    .form-field { min-width: 140px; flex: 1 1 calc(50% - 8px); }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo">B</div>
+  <h1>BOBM Quarantine</h1>
+  <span class="badge">Mock Screen</span>
+  <div class="spacer"></div>
+  <div class="user" title="User">DV</div>
+</header>
+
+<main class="page">
+
+  <!-- Radio buttons -->
+  <section class="panel">
+    <div class="panel-header">Search Mode</div>
+    <div class="panel-body">
+      <div class="radio-group" id="modeRadios">
+        <label class="radio-item"><input type="radio" name="mode" value="unitId"> Unit ID</label>
+        <label class="radio-item"><input type="radio" name="mode" value="station"> Station with Date Time Range</label>
+        <label class="radio-item"><input type="radio" name="mode" value="batchPart"> Batch / Part Serial Number</label>
+        <label class="radio-item"><input type="radio" name="mode" value="invReport"> Inventory Quarantine Report</label>
+        <label class="radio-item"><input type="radio" name="mode" value="assyReport"> Assembly Quarantine Report</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Criteria -->
+  <section class="panel hidden" id="criteriaPanel">
+    <div class="panel-header" id="criteriaHeader">Selection Criteria</div>
+    <div class="panel-body">
+      <div id="criteriaFields" class="form-row"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="searchBtn">Search</button>
+        <button class="btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="panel hidden" id="resultsPanel">
+    <div class="panel-header" id="resultsHeader">Results</div>
+    <div class="action-bar" id="actionBar"></div>
+    <div id="resultsBody"></div>
+    <div class="notice" id="resultsNotice"></div>
+  </section>
+
+  <!-- Initial hint -->
+  <section class="panel" id="hintPanel">
+    <div class="hint">Select a search mode above to begin.</div>
+  </section>
+
+</main>
+
+<script>
+  // -------- Mode configuration (declarative) --------
+  // selection: "multi" => checkbox per row, "single" => radio per row, "none" => no row selector
+  const MODES = {
+    unitId: {
+      label: "Unit ID",
+      criteria: [
+        { key: "sfc", label: "SFC", type: "text", placeholder: "e.g. SFC0012347" }
+      ],
+      display: "sfcList",
+      selection: "multi",
+      actions: ["quarantine", "unquarantine", "scrap", "export"]
+    },
+    station: {
+      label: "Station with Date Time Range",
+      criteria: [
+        { key: "station",   label: "Station",    type: "text", placeholder: "e.g. STN-001" },
+        { key: "startDate", label: "Start Date", type: "date" },
+        { key: "startTime", label: "Start Time", type: "time" },
+        { key: "endDate",   label: "End Date",   type: "date" },
+        { key: "endTime",   label: "End Time",   type: "time" }
+      ],
+      display: "sfcList",
+      selection: "multi",
+      actions: ["quarantine", "unquarantine", "scrap", "export"]
+    },
+    batchPart: {
+      label: "Batch / Part Serial Number",
+      criteria: [
+        { key: "batch",      label: "Batch",              type: "text", placeholder: "e.g. BATCH-2026-A001" },
+        { key: "partSerial", label: "Part Serial Number", type: "text", placeholder: "e.g. PSN-XYZ123" }
+      ],
+      display: "lineStockAndAssy",
+      selection: "multi",
+      actions: ["quarantine", "unquarantine", "scrap", "bulkUpload", "addPart", "export"]
+    },
+    invReport: {
+      label: "Inventory Quarantine Report",
+      criteria: [
+        { key: "status",    label: "Status",             type: "select", options: ["All", "Quarantine", "Available", "Released"] },
+        { key: "startDate", label: "Start Date",         type: "date" },
+        { key: "endDate",   label: "End Date",           type: "date" },
+        { key: "batchPart", label: "Batch / Part Serial", type: "text", placeholder: "optional" }
+      ],
+      display: "lineStock",
+      selection: "none",
+      actions: ["export"]
+    },
+    assyReport: {
+      label: "Assembly Quarantine Report",
+      criteria: [
+        { key: "sfc",       label: "SFC",        type: "text", placeholder: "e.g. SFC0012345" },
+        { key: "startDate", label: "Start Date", type: "date" },
+        { key: "endDate",   label: "End Date",   type: "date" }
+      ],
+      display: "sfcList",
+      selection: "none",
+      actions: ["export"]
+    }
+  };
+
+  const ACTION_LABELS = {
+    quarantine:   "Quarantine",
+    unquarantine: "Un-Quarantine",
+    scrap:        "Scrap",
+    bulkUpload:   "Bulk Upload",
+    addPart:      "Add Part",
+    export:       "Export"
+  };
+
+  // Actions that require at least one selected row when selection is enabled
+  const SELECTION_REQUIRED_ACTIONS = ["quarantine", "unquarantine", "scrap"];
+
+  // -------- Mock data --------
+  const SAMPLE_SFC_LIST = [
+    { sfc: "SFC0012345", status: "Released",    material: "MAT-A100", operation: "OP-10", qty: 1, station: "STN-001" },
+    { sfc: "SFC0012346", status: "Active",      material: "MAT-A100", operation: "OP-20", qty: 1, station: "STN-001" },
+    { sfc: "SFC0012347", status: "Quarantined", material: "MAT-A101", operation: "OP-10", qty: 1, station: "STN-002" },
+    { sfc: "SFC0012348", status: "In Queue",    material: "MAT-A102", operation: "OP-15", qty: 2, station: "STN-001" },
+    { sfc: "SFC0012349", status: "Done",        material: "MAT-A100", operation: "OP-30", qty: 1, station: "STN-003" }
+  ];
+
+  // Unit ID search returns a single SFC row in the same shape as the list
+  const UNIT_ID_RESULT = [
+    { sfc: "SFC0012347", status: "Quarantined", material: "MAT-A101", operation: "OP-10", qty: 1, station: "STN-002" }
+  ];
+
+  const SAMPLE_LINE_STOCK = [
+    { invId: "INV-001", material: "MAT-A100", batch: "BATCH-2026-A001", partSerial: "PSN-XYZ123", status: "Available",  qty: "50 EA", storage: "STORAGE-01" },
+    { invId: "INV-002", material: "MAT-A101", batch: "BATCH-2026-A002", partSerial: "PSN-XYZ124", status: "Quarantine", qty: "25 EA", storage: "STORAGE-02" },
+    { invId: "INV-003", material: "MAT-A100", batch: "BATCH-2026-A001", partSerial: "PSN-XYZ125", status: "Available",  qty: "10 EA", storage: "STORAGE-01" },
+    { invId: "INV-004", material: "MAT-A102", batch: "BATCH-2026-A003", partSerial: "PSN-XYZ126", status: "Quarantine", qty: "5 EA",  storage: "STORAGE-03" }
+  ];
+
+  const SAMPLE_ASSEMBLIES = [
+    { level: 0, sfc: "SFC0098765", material: "MAT-TOP-01",  status: "Active",      station: "STN-FA-01" },
+    { level: 1, sfc: "SFC0011111", material: "MAT-SUB-A",   status: "Released",    station: "STN-SA-01" },
+    { level: 1, sfc: "SFC0011112", material: "MAT-SUB-B",   status: "Quarantined", station: "STN-SA-02" },
+    { level: 2, sfc: "SFC0022001", material: "MAT-LEAF-1",  status: "Done",        station: "STN-LF-01" },
+    { level: 0, sfc: "SFC0098766", material: "MAT-TOP-02",  status: "Active",      station: "STN-FA-01" }
+  ];
+
+  // -------- State --------
+  let currentMode = null;
+  let activeTab = "lineStock";
+
+  // -------- Helpers --------
+  function statusPill(s) {
+    const map = {
+      "Released": "status-released", "Active": "status-active",
+      "Quarantined": "status-quarantined", "Quarantine": "status-quarantined",
+      "In Queue": "status-queue", "Done": "status-done",
+      "Available": "status-available"
+    };
+    return `<span class="status ${map[s] || ''}">${s}</span>`;
+  }
+
+  function showToast(msg) {
+    const t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2000);
+  }
+
+  // -------- Render: criteria --------
+  function renderCriteria(modeKey) {
+    const mode = MODES[modeKey];
+    document.getElementById("criteriaHeader").textContent =
+      "Selection Criteria — " + mode.label;
+
+    const container = document.getElementById("criteriaFields");
+    container.innerHTML = "";
+    mode.criteria.forEach(field => {
+      const wrap = document.createElement("div");
+      wrap.className = "form-field";
+      const label = document.createElement("label");
+      label.textContent = field.label;
+      wrap.appendChild(label);
+
+      let input;
+      if (field.type === "select") {
+        input = document.createElement("select");
+        field.options.forEach(o => {
+          const opt = document.createElement("option");
+          opt.value = o; opt.textContent = o;
+          input.appendChild(opt);
+        });
+      } else {
+        input = document.createElement("input");
+        input.type = field.type;
+        if (field.placeholder) input.placeholder = field.placeholder;
+      }
+      wrap.appendChild(input);
+      container.appendChild(wrap);
+    });
+
+    document.getElementById("hintPanel").classList.add("hidden");
+    document.getElementById("criteriaPanel").classList.remove("hidden");
+    document.getElementById("resultsPanel").classList.add("hidden");
+  }
+
+  // -------- Render: action bar --------
+  function renderActionBar() {
+    const mode = MODES[currentMode];
+    const bar = document.getElementById("actionBar");
+    bar.innerHTML = "";
+
+    mode.actions.forEach(actionKey => {
+      const btn = document.createElement("button");
+      btn.className = "btn";
+      btn.textContent = ACTION_LABELS[actionKey];
+      btn.dataset.action = actionKey;
+
+      btn.addEventListener("click", () => {
+        if (actionKey === "export") {
+          // Export always works on all loaded data
+          showToast("Export — all loaded data (mock)");
+          return;
+        }
+        if (SELECTION_REQUIRED_ACTIONS.includes(actionKey) && mode.selection !== "none") {
+          const selected = getSelectedRowsCount();
+          if (selected === 0) {
+            showToast("Please select at least one row");
+            return;
+          }
+          showToast(ACTION_LABELS[actionKey] + " — " + selected + " row(s) (mock)");
+          return;
+        }
+        // Add Part / Bulk Upload / actions on single-record card modes
+        showToast(ACTION_LABELS[actionKey] + " — triggered (mock)");
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function getSelectedRowsCount() {
+    const body = document.getElementById("resultsBody");
+    return body.querySelectorAll(".rowSel:checked").length;
+  }
+
+  // -------- Render: results --------
+  function renderResults() {
+    const mode = MODES[currentMode];
+    const body = document.getElementById("resultsBody");
+    const notice = document.getElementById("resultsNotice");
+    body.innerHTML = "";
+
+    switch (mode.display) {
+      case "sfcList": {
+        const data = currentMode === "unitId" ? UNIT_ID_RESULT : SAMPLE_SFC_LIST;
+        body.appendChild(wrapTable(renderSfcTable(data)));
+        notice.textContent = data.length + " record(s) · mock data";
+        break;
+      }
+      case "lineStock":
+        body.appendChild(wrapTable(renderLineStockTable(SAMPLE_LINE_STOCK)));
+        notice.textContent = SAMPLE_LINE_STOCK.length + " line stock records · mock data";
+        break;
+      case "lineStockAndAssy":
+        body.appendChild(renderTabsView());
+        notice.textContent = "Line Stock: " + SAMPLE_LINE_STOCK.length +
+                             "  ·  Impacted Assemblies: " + SAMPLE_ASSEMBLIES.length +
+                             "  ·  mock data";
+        break;
+    }
+  }
+
+  function wrapTable(tbl) {
+    const wrap = document.createElement("div");
+    wrap.className = "table-wrap";
+    wrap.appendChild(tbl);
+    return wrap;
+  }
+
+  // Returns "multi" | "single" | "none" for current mode
+  function getSelectionType() {
+    return MODES[currentMode].selection || "none";
+  }
+
+  // Returns header cell HTML for the selector column (or empty string if none)
+  function selectorHeaderHtml() {
+    const t = getSelectionType();
+    if (t === "multi")  return '<th class="checkbox-col"><input type="checkbox" id="selAll" title="Select all"></th>';
+    if (t === "single") return '<th class="checkbox-col"></th>';
+    return '';
+  }
+
+  // Returns row cell HTML for the selector column (or empty string if none)
+  function selectorCellHtml() {
+    const t = getSelectionType();
+    if (t === "multi")  return '<td class="checkbox-col"><input type="checkbox" class="rowSel"></td>';
+    if (t === "single") return '<td class="checkbox-col"><input type="radio" name="rowSelRadio" class="rowSel"></td>';
+    return '';
+  }
+
+  function renderSfcTable(rows) {
+    const tbl = document.createElement("table");
+    tbl.innerHTML = `
+      <thead><tr>
+        ${selectorHeaderHtml()}
+        <th>SFC</th><th>Status</th><th>Material</th><th>Operation</th><th>Qty</th><th>Station</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr>
+            ${selectorCellHtml()}
+            <td>${r.sfc}</td>
+            <td>${statusPill(r.status)}</td>
+            <td>${r.material}</td>
+            <td>${r.operation}</td>
+            <td>${r.qty}</td>
+            <td>${r.station}</td>
+          </tr>`).join('')}
+      </tbody>`;
+    attachRowSelection(tbl);
+    return tbl;
+  }
+
+  function renderLineStockTable(rows) {
+    const tbl = document.createElement("table");
+    tbl.innerHTML = `
+      <thead><tr>
+        ${selectorHeaderHtml()}
+        <th>Inventory ID</th><th>Material</th><th>Batch</th><th>Part Serial Number</th>
+        <th>Status</th><th>Quantity</th><th>Storage Location</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr>
+            ${selectorCellHtml()}
+            <td>${r.invId}</td>
+            <td>${r.material}</td>
+            <td>${r.batch}</td>
+            <td>${r.partSerial}</td>
+            <td>${statusPill(r.status)}</td>
+            <td>${r.qty}</td>
+            <td>${r.storage}</td>
+          </tr>`).join('')}
+      </tbody>`;
+    attachRowSelection(tbl);
+    return tbl;
+  }
+
+  function renderAssyTable(rows) {
+    const tbl = document.createElement("table");
+    tbl.innerHTML = `
+      <thead><tr>
+        ${selectorHeaderHtml()}
+        <th>SFC</th><th>Material</th><th>Status</th><th>Station</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr>
+            ${selectorCellHtml()}
+            <td style="padding-left:${10 + r.level * 18}px">${r.level > 0 ? '└ ' : ''}${r.sfc}</td>
+            <td>${r.material}</td>
+            <td>${statusPill(r.status)}</td>
+            <td>${r.station}</td>
+          </tr>`).join('')}
+      </tbody>`;
+    attachRowSelection(tbl);
+    return tbl;
+  }
+
+  function attachRowSelection(tbl) {
+    // "Select all" only present in multi mode
+    const all = tbl.querySelector("#selAll");
+    if (all) {
+      all.addEventListener("change", e => {
+        tbl.querySelectorAll(".rowSel").forEach(cb => {
+          cb.checked = e.target.checked;
+          cb.closest("tr").classList.toggle("selected", e.target.checked);
+        });
+      });
+    }
+    tbl.querySelectorAll(".rowSel").forEach(cb => {
+      cb.addEventListener("change", () => {
+        // For radios, clear other rows' highlight; for checkboxes, just toggle this row
+        if (cb.type === "radio") {
+          tbl.querySelectorAll("tr.selected").forEach(tr => tr.classList.remove("selected"));
+        }
+        cb.closest("tr").classList.toggle("selected", cb.checked);
+      });
+    });
+  }
+
+  function renderTabsView() {
+    const wrap = document.createElement("div");
+
+    const strip = document.createElement("div");
+    strip.className = "tab-strip";
+
+    const tab1 = document.createElement("button");
+    tab1.className = "tab" + (activeTab === "lineStock" ? " active" : "");
+    tab1.textContent = "Line Stock (" + SAMPLE_LINE_STOCK.length + ")";
+    tab1.addEventListener("click", () => { activeTab = "lineStock"; renderResults(); });
+
+    const tab2 = document.createElement("button");
+    tab2.className = "tab" + (activeTab === "assy" ? " active" : "");
+    tab2.textContent = "Impacted Assemblies (" + SAMPLE_ASSEMBLIES.length + ")";
+    tab2.addEventListener("click", () => { activeTab = "assy"; renderResults(); });
+
+    strip.appendChild(tab1);
+    strip.appendChild(tab2);
+    wrap.appendChild(strip);
+
+    const content = document.createElement("div");
+    if (activeTab === "lineStock") {
+      content.appendChild(wrapTable(renderLineStockTable(SAMPLE_LINE_STOCK)));
+    } else {
+      content.appendChild(wrapTable(renderAssyTable(SAMPLE_ASSEMBLIES)));
+    }
+    wrap.appendChild(content);
+    return wrap;
+  }
+
+  // -------- Wiring --------
+  document.getElementById("modeRadios").addEventListener("change", e => {
+    if (e.target.name === "mode") {
+      currentMode = e.target.value;
+      activeTab = "lineStock";
+      renderCriteria(currentMode);
+    }
+  });
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    if (!currentMode) return;
+    document.getElementById("resultsPanel").classList.remove("hidden");
+    document.getElementById("resultsHeader").textContent =
+      "Results — " + MODES[currentMode].label;
+    renderActionBar();
+    renderResults();
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    if (currentMode) renderCriteria(currentMode);
+    document.getElementById("resultsPanel").classList.add("hidden");
+  });
+</script>
+
+</body>
+</html>
